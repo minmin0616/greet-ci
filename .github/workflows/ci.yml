@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests (${{ matrix.os }}, ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.8.14"
+          python-version: ${{ matrix.python }}
+      - name: Run pytest
+        run: uv run --locked pytest -q greet.py
+
+  quality:
+    name: Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.8.14"
+          python-version: "3.12"
+      - name: Check formatting
+        run: uv run --locked black --check greet.py
+      - name: Check lint
+        run: uv run --locked flake8 greet.py
+      - name: Check types
+        run: uv run --locked mypy greet.py
+
+  build:
+    name: Build package
+    needs: [tests, quality]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.8.14"
+          python-version: "3.12"
+      - name: Build distributions
+        run: uv build
+      - name: Save distributions
+        uses: actions/upload-artifact@v7
+        with:
+          name: greet-dist
+          path: dist/*
+          if-no-files-found: error
