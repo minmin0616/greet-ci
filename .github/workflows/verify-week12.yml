@@ -1,0 +1,51 @@
+name: Verify Week12 Docker
+on:
+  push:
+    branches: [verify-week12-docker]
+    paths: ['.github/workflows/verify-week12.yml']
+permissions:
+  contents: read
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build and verify assignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p Week12/src/greet_docker
+          mkdir -p "Week12/"
+          printf '%s' 'RlJPTSBweXRob246My4xMy1zbGltLXRyaXhpZQpDT1BZIC0tZnJvbT1naGNyLmlvL2FzdHJhbC1zaC91djowLjEzLjggL3V2IC91dnggL2Jpbi8KV09SS0RJUiAvYXBwCkVOViBVVl9OT19ERVY9MQpDT1BZIHB5cHJvamVjdC50b21sIHV2LmxvY2sgLi8KUlVOIHV2IHN5bmMgLS1sb2NrZWQgLS1uby1pbnN0YWxsLXByb2plY3QKQ09QWSAuIC4KUlVOIHV2IHN5bmMgLS1sb2NrZWQKRU5WIFBBVEg9Ii9hcHAvLnZlbnYvYmluOiRQQVRIIgpDTUQgWyJncmVldC1kb2NrZXIiLCAiRG9ja2VyIl0K' | base64 -d > 'Week12/Dockerfile'
+          mkdir -p "Week12/src/greet_docker"
+          printf '%s' 'aW1wb3J0IHN5cwoKZnJvbSB0ZXJtY29sb3IgaW1wb3J0IGNvbG9yZWQKCgpkZWYgZ3JlZXQobmFtZTogc3RyKSAtPiBzdHI6CiAgICBuYW1lID0gbmFtZS5zdHJpcCgpIG9yICJ3b3JsZCIKICAgIHJldHVybiBmIkhlbGxvLCB7bmFtZX0hIgoKCmRlZiBtYWluKCkgLT4gaW50OgogICAgbmFtZSA9IHN5cy5hcmd2WzFdIGlmIGxlbihzeXMuYXJndikgPiAxIGVsc2UgIiIKICAgIHByaW50KGNvbG9yZWQoZ3JlZXQobmFtZSksICJncmVlbiIpKQogICAgcmV0dXJuIDAK' | base64 -d > 'Week12/src/greet_docker/__init__.py'
+          mkdir -p "Week12/"
+          printf '%s' 'dmVyc2lvbiA9IDEKcmV2aXNpb24gPSA1CnJlcXVpcmVzLXB5dGhvbiA9ICI+PTMuMTEiCgpbW3BhY2thZ2VdXQpuYW1lID0gImdyZWV0LWRvY2tlciIKdmVyc2lvbiA9ICIwLjEuMCIKc291cmNlID0geyBlZGl0YWJsZSA9ICIuIiB9CmRlcGVuZGVuY2llcyA9IFsKICAgIHsgbmFtZSA9ICJ0ZXJtY29sb3IiIH0sCl0KCltwYWNrYWdlLm1ldGFkYXRhXQpyZXF1aXJlcy1kaXN0ID0gW3sgbmFtZSA9ICJ0ZXJtY29sb3IiLCBzcGVjaWZpZXIgPSAiPj0zLjEuMCIgfV0KCltbcGFja2FnZV1dCm5hbWUgPSAidGVybWNvbG9yIgp2ZXJzaW9uID0gIjMuMy4wIgpzb3VyY2UgPSB7IHJlZ2lzdHJ5ID0gImh0dHBzOi8vcHlwaS5vcmcvc2ltcGxlIiB9CnNkaXN0ID0geyB1cmwgPSAiaHR0cHM6Ly9maWxlcy5weXRob25ob3N0ZWQub3JnL3BhY2thZ2VzLzQ2Lzc5L2NmMzFkN2E5M2E4ZmRjNmFhMGZiYjY2NWJlODQ0MjZhOGM1YTU1N2Q5MjQwYjYyMzllOWUxMWUzNWZjNS90ZXJtY29sb3ItMy4zLjAudGFyLmd6IiwgaGFzaCA9ICJzaGEyNTY6MzQ4ODcxY2E2NDhlYzZhOWE5ODNhMTNhYjYyNmMwYWNjZTAyZjUxNWI5ZTE5ODMzMzJiMTdhZjc5Nzk1MjFjNSIsIHNpemUgPSAxNDQzNCwgdXBsb2FkLXRpbWUgPSAiMjAyNS0xMi0yOVQxMjo1NToyMS44ODJaIiB9CndoZWVscyA9IFsKICAgIHsgdXJsID0gImh0dHBzOi8vZmlsZXMucHl0aG9uaG9zdGVkLm9yZy9wYWNrYWdlcy8zMy9kMS84YmI4N2QyMWU5YWViMzIzY2MwMzAzNGY1ZWFmMmM4ZjY5ODQxZTQwZTQ4NTNjMjYyN2VkZjgxMTFlZDMvdGVybWNvbG9yLTMuMy4wLXB5My1ub25lLWFueS53aGwiLCBoYXNoID0gInNoYTI1NjpjZjY0MmVmYWRhZjBhOGViYmJmNGJjN2EzMWNlYzJmOWI1ZjIxYTlmNzI2ZjRjY2JiMDgxOTJjOWMyNmY0M2E1Iiwgc2l6ZSA9IDc3MzQsIHVwbG9hZC10aW1lID0gIjIwMjUtMTItMjlUMTI6NTU6MjAuNzE4WiIgfSwKXQo=' | base64 -d > 'Week12/uv.lock'
+          mkdir -p "Week12/"
+          printf '%s' 'LnZlbnYKX19weWNhY2hlX18K' | base64 -d > 'Week12/.dockerignore'
+          mkdir -p "Week12/"
+          printf '%s' 'W2J1aWxkLXN5c3RlbV0KcmVxdWlyZXMgPSBbInNldHVwdG9vbHM+PTc3Il0KYnVpbGQtYmFja2VuZCA9ICJzZXR1cHRvb2xzLmJ1aWxkX21ldGEiCgpbcHJvamVjdF0KbmFtZSA9ICJncmVldC1kb2NrZXIiCnZlcnNpb24gPSAiMC4xLjAiCnJlcXVpcmVzLXB5dGhvbiA9ICI+PTMuMTEiCmRlcGVuZGVuY2llcyA9IFsidGVybWNvbG9yPj0zLjEuMCJdCgpbcHJvamVjdC5zY3JpcHRzXQpncmVldC1kb2NrZXIgPSAiZ3JlZXRfZG9ja2VyOm1haW4iCgpbdG9vbC5zZXR1cHRvb2xzLnBhY2thZ2VzLmZpbmRdCndoZXJlID0gWyJzcmMiXQo=' | base64 -d > 'Week12/pyproject.toml'
+          cd Week12
+          docker run --rm hello-world
+          docker build --progress=plain -t greet-docker . > /tmp/week12-build.log 2>&1 || { cat /tmp/week12-build.log; exit 1; }
+          docker image ls greet-docker > /tmp/week12-images.log
+          docker run --rm greet-docker > /tmp/week12-default.log
+          docker run --rm greet-docker greet-docker Hee > /tmp/week12-hee.log
+          test "$(cat /tmp/week12-default.log)" = 'Hello, Docker!'
+          test "$(cat /tmp/week12-hee.log)" = 'Hello, Hee!'
+          {
+          printf '# greet-docker Docker 실행\n\n## 실행 방법\nWeek12 폴더에서 실행한다.\n\x60\x60\x60text\ndocker build -t greet-docker .\ndocker run --rm greet-docker\n\x60\x60\x60\n\n## 실행 기록\nGitHub Actions Ubuntu runner에서 실제 실행했다. 빌드 로그는 마지막 20줄을 발췌했다.\n\x60\x60\x60text\n$ docker build -t greet-docker .\n'
+          tail -n 20 /tmp/week12-build.log
+          printf '$ docker image ls greet-docker\n'
+          cat /tmp/week12-images.log
+          printf '$ docker run --rm greet-docker\n'
+          cat /tmp/week12-default.log
+          printf '$ docker run --rm greet-docker greet-docker Hee\n'
+          cat /tmp/week12-hee.log
+          printf '\x60\x60\x60\n'
+          } > docker_build.md
+          cat docker_build.md
+          
+      - uses: actions/upload-artifact@v4
+        with:
+          name: week12-docker-evidence
+          path: Week12/docker_build.md
