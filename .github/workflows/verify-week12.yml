@@ -27,7 +27,7 @@ jobs:
           cd Week12
           docker run --rm hello-world
           docker build --progress=plain -t greet-docker . > /tmp/week12-build.log 2>&1 || { cat /tmp/week12-build.log; exit 1; }
-          docker image ls greet-docker > /tmp/week12-images.log
+          docker image ls greet-docker --format 'table {{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.Size}}' > /tmp/week12-images.log
           docker run --rm greet-docker > /tmp/week12-default.log
           docker run --rm greet-docker greet-docker Hee > /tmp/week12-hee.log
           test "$(cat /tmp/week12-default.log)" = 'Hello, Docker!'
